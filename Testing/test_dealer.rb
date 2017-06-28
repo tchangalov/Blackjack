@@ -40,11 +40,11 @@ class Test_Dealer < Test::Unit::TestCase
 		dealer.hands << Card.new("Q", "Kings")
 		
 		# Assert correct winner
-        d_has_blackjack = dealer.has_face("A") && dealer.has_val(10)
-        p_has_blackjack = player.has_face("A") && player.has_val(10)
-
-        assert(d_has_blackjack)
-        assert(p_has_blackjack)
+		d_has_blackjack = dealer.has_face("A") && dealer.has_val(10)
+		p_has_blackjack = player.has_face("A") && player.has_val(10)
+		
+		assert(d_has_blackjack)
+		assert(p_has_blackjack)
     end
 
     # One person has blackjack
@@ -58,11 +58,12 @@ class Test_Dealer < Test::Unit::TestCase
 		dealer.hands << Card.new("A", "Diamonds")
 		dealer.hands << Card.new("K", "Kings")
 
-        d_has_blackjack = dealer.has_face("A") && dealer.has_val(10)
-        p_has_blackjack = player.has_face("A") && player.has_val(10)
-
-        assert(d_has_blackjack)
-        assert(!p_has_blackjack)
+		# Assert correct winner
+		d_has_blackjack = dealer.has_face("A") && dealer.has_val(10)
+		p_has_blackjack = player.has_face("A") && player.has_val(10)
+		
+		assert(d_has_blackjack)
+		assert(!p_has_blackjack)
     end
 
     # No one has blackjack
@@ -77,17 +78,17 @@ class Test_Dealer < Test::Unit::TestCase
 		dealer.hands << Card.new(6, "Kings")
 		
 		d_has_blackjack = dealer.has_face("A") && dealer.has_val(10)
-        p_has_blackjack = player.has_face("A") && player.has_val(10)
+		p_has_blackjack = player.has_face("A") && player.has_val(10)
 
-        assert(!d_has_blackjack)
-        assert(!p_has_blackjack)
+		assert(!d_has_blackjack)
+		assert(!p_has_blackjack)
     end
 
     # No Aces - test hit and stand
     def test_compute_dealer_move1
-    	player = Player.new
+		player = Player.new
 		dealer = Dealer.new(player)
-
+		
 		player.hands << Card.new(5, "Hearts")
 		player.hands << Card.new(4, "Kings")
 		# Manually updating since deck's deal method does this
@@ -98,43 +99,43 @@ class Test_Dealer < Test::Unit::TestCase
 		dealer.hands << Card.new(6, "Kings")
 		dealer.value += 12
 		
-        assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "hit")
-        dealer.hands << Card.new(5, "Spades")
-        dealer.value += 5
-
-        assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "stand")
+		assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "hit")
+		dealer.hands << Card.new(5, "Spades")
+		dealer.value += 5
+		
+		assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "stand")
     end
 
     # Only 1 Ace - test hit and stand
     def test_compute_dealer_move2
-    	player = Player.new
+		player = Player.new
 		dealer = Dealer.new(player)
 		# Manually updating since deck's deal method does this
 		# But gives a random card. Here I want to deal a specific one
 		dealer.hands << Card.new("A", "Diamonds")
 		dealer.hands << Card.new(6, "Kings")
 		dealer.value += (1 + 6)
-
+		
 		# Tests exact threshold (7 or 17) = (hit or stand) = stand takes precedence
-        assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "stand")
+		assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "stand")
+		
+		dealer.hands << Card.new(5, "Spades")
+		dealer.value += 5
 
-        dealer.hands << Card.new(5, "Spades")
-        dealer.value += 5
-
-        # here we have eiteher (12 or 22) = (hit or stand (busted)) = hit takes precedence
-        assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "hit")
+		# here we have eiteher (12 or 22) = (hit or stand (busted)) = hit takes precedence
+		assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "hit")
         
-        dealer.hands << Card.new(5, "Hearts")
-        dealer.value += 5
+		dealer.hands << Card.new(5, "Hearts")
+		dealer.value += 5
 
-        # here we have eiteher (19 or 29) = (stand or stand (busted)) = stand
-        assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "stand")
+		# here we have eiteher (19 or 29) = (stand or stand (busted)) = stand
+		assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "stand")
         
-        dealer.hands << Card.new(7, "Hearts")
-        dealer.value += 7
+		dealer.hands << Card.new(7, "Hearts")
+		dealer.value += 7
 
-        # adding a card of 7 means he just chose to hit but (26 or 36). should stand
-        assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "stand")
+		# adding a card of 7 means he just chose to hit but (26 or 36). should stand
+		assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "stand")
     end
 
     # 2 and 3 Aces - test hit and stand (Only one Ace can be at 11)
@@ -149,19 +150,19 @@ class Test_Dealer < Test::Unit::TestCase
 
 		# Two Aces if they were both 11 is a bust, thus only one ace can exist
 		# Tests exact threshold (2 or 12) = (hit or hit) = hit takes precedence
-        assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "hit")
+		assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "hit")
 
-        dealer.hands << Card.new(4, "Spades")
-        dealer.value += 4
+		dealer.hands << Card.new(4, "Spades")
+		dealer.value += 4
 
-        # here we have eiteher (6 or 16) = (hit or hit) = hit takes precedence
-        assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "hit")
+		# here we have eiteher (6 or 16) = (hit or hit) = hit takes precedence
+		assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "hit")
         
-        dealer.hands << Card.new("A", "Hearts")
-        dealer.value += 1
+		dealer.hands << Card.new("A", "Hearts")
+		dealer.value += 1
 
-        # here we have eiteher (7 or 17) = (hit or stand) = stand
-        assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "stand")
+		# here we have eiteher (7 or 17) = (hit or stand) = stand
+		assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "stand")
     end
 
    def test_compare_the_two
@@ -177,19 +178,19 @@ class Test_Dealer < Test::Unit::TestCase
 		player.value += 14
 
 		# Player: 14 / Dealer: 14
-        assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Tie")
+		assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Tie")
 
-       	dealer.hands << Card.new(10, "Spades")
-	    dealer.value += 10
+		dealer.hands << Card.new(10, "Spades")
+		dealer.value += 10
 
-	    # Player: 14 / Dealer: 24
-       	assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Player")
+		# Player: 14 / Dealer: 24
+		assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Player")
 
 		player.hands << Card.new(10, "Hearts")
-	    player.value += 10
+		player.value += 10
 
-	    # Player: 24 / Dealer: 24
-	    assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Dealer")
+		# Player: 24 / Dealer: 24
+		assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Dealer")
     end
 
     # Player Busts
