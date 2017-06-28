@@ -1,5 +1,5 @@
 # Blackjack Implementation 
-With an interest in blackjack fundamentals, I created a simple blackjack game to explore the basic logic
+With an interest in blackjack, I created a simple blackjack game to explore the basic logic
 of the game as well as practice object-oriented programming and application development fundamentals.
 
 Applications Used: Ruby
