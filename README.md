@@ -27,3 +27,6 @@ There will be 2 players: a human player (user) and a dealer (script)
 * All cards count as their face value, except an Ace which can be 1 or 11 and J, Q, K all count as 10
 * Deck is shuffled before each game
 * No advanced blackjack rules (split, double)
+
+## Gameplay
+![er](Screenshots/gameplay.png)
