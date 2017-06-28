@@ -64,7 +64,7 @@ class Test_Dealer < Test::Unit::TestCase
 		
 		assert(d_has_blackjack)
 		assert(!p_has_blackjack)
-    end
+	end
 
 	# No one has blackjack
 	def test_setup_game_none_have_blackjack
@@ -350,7 +350,7 @@ class Test_Dealer < Test::Unit::TestCase
 
 		# Player: 11 or 21 / Dealer: 19
 		assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Player")
-    end
+	end
 
 	# Both with Aces
 	def test_compare_the_two_part_two9
