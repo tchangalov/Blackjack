@@ -45,7 +45,7 @@ class Test_Dealer < Test::Unit::TestCase
 		
 		assert(d_has_blackjack)
 		assert(p_has_blackjack)
-    end
+	end
 
     # One person has blackjack
     def test_setup_game_ONE_has_blackjack
@@ -66,8 +66,8 @@ class Test_Dealer < Test::Unit::TestCase
 		assert(!p_has_blackjack)
     end
 
-    # No one has blackjack
-    def test_setup_game_none_have_blackjack
+	# No one has blackjack
+	def test_setup_game_none_have_blackjack
 		player = Player.new
 		dealer = Dealer.new(player)
 
@@ -82,10 +82,10 @@ class Test_Dealer < Test::Unit::TestCase
 
 		assert(!d_has_blackjack)
 		assert(!p_has_blackjack)
-    end
+	end
 
-    # No Aces - test hit and stand
-    def test_compute_dealer_move1
+	# No Aces - test hit and stand
+	def test_compute_dealer_move1
 		player = Player.new
 		dealer = Dealer.new(player)
 		
@@ -104,10 +104,10 @@ class Test_Dealer < Test::Unit::TestCase
 		dealer.value += 5
 		
 		assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "stand")
-    end
+	end
 
-    # Only 1 Ace - test hit and stand
-    def test_compute_dealer_move2
+	# Only 1 Ace - test hit and stand
+	def test_compute_dealer_move2
 		player = Player.new
 		dealer = Dealer.new(player)
 		# Manually updating since deck's deal method does this
@@ -138,9 +138,9 @@ class Test_Dealer < Test::Unit::TestCase
 		assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "stand")
     end
 
-    # 2 and 3 Aces - test hit and stand (Only one Ace can be at 11)
-    def test_compute_dealer_move3
-    	player = Player.new
+	# 2 and 3 Aces - test hit and stand (Only one Ace can be at 11)
+	def test_compute_dealer_move3
+		player = Player.new
 		dealer = Dealer.new(player)
 		# Manually updating since deck's deal method does this
 		# But gives a random card. Here I want to deal a specific one
@@ -163,15 +163,15 @@ class Test_Dealer < Test::Unit::TestCase
 
 		# here we have eiteher (7 or 17) = (hit or stand) = stand
 		assert_match(dealer.compute_dealer_move(dealer, dealer.hands), "stand")
-    end
+	end
 
-   def test_compare_the_two
-    	player = Player.new
+	def test_compare_the_two
+		player = Player.new
 		dealer = Dealer.new(player)
 
 		dealer.hands << Card.new(4, "Diamonds")
 		dealer.hands << Card.new(10, "Kings")
-        dealer.value += 14
+		dealer.value += 14
 
 		player.hands << Card.new(4, "Diamonds")
 		player.hands << Card.new(10, "Kings")
@@ -193,117 +193,117 @@ class Test_Dealer < Test::Unit::TestCase
 		assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Dealer")
     end
 
-    # Player Busts
-    def test_compare_the_two_part2
-    	player = Player.new
+	# Player Busts
+	def test_compare_the_two_part2
+		player = Player.new
 		dealer = Dealer.new(player)
 
 		dealer.hands << Card.new(4, "Diamonds")
 		dealer.hands << Card.new(10, "Kings")
-        dealer.value += 14
+		dealer.value += 14
 
 		player.hands << Card.new(4, "Diamonds")
 		player.hands << Card.new(10, "Kings")
 		player.hands << Card.new(10, "Hearts")
-	    player.value += 10 + 10 + 4
+		player.value += 10 + 10 + 4
+		
+		# Player: 24 / Dealer: 14
+		assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Dealer")
+	end
 
-	    # Player: 24 / Dealer: 14
-       	assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Dealer")
-    end
-
-    # Dealer Busts
-    def test_compare_the_two_part_two3
-    	player = Player.new
+	# Dealer Busts
+	def test_compare_the_two_part_two3
+		player = Player.new
 		dealer = Dealer.new(player)
 
 		dealer.hands << Card.new(4, "Diamonds")
 		dealer.hands << Card.new(10, "Kings")
-        dealer.value += 14
+		dealer.value += 14
 
 		player.hands << Card.new(10, "Kings")
 		player.hands << Card.new(10, "Hearts")
-	    player.value += 10 + 10
+		player.value += 10 + 10
 
-	    # Player: 20 / Dealer: 14
-       	assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Player")
+		# Player: 20 / Dealer: 14
+		assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Player")
 
-       	dealer.hands << Card.new(10, "Spades")
-        dealer.value += 10
+		dealer.hands << Card.new(10, "Spades")
+		dealer.value += 10
+		
+		# Player: 20 / Dealer: 24
+		assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Player")
 
-        # Player: 20 / Dealer: 24
-        assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Player")
+	end
 
-    end
-
-    # Dealer has Blackjack
-    def test_compare_the_two_part_two4
-    	player = Player.new
+	# Dealer has Blackjack
+	def test_compare_the_two_part_two4
+		player = Player.new
 		dealer = Dealer.new(player)
 
 		dealer.hands << Card.new(9, "Diamonds")
 		dealer.hands << Card.new(10, "Kings")
 		dealer.hands << Card.new(2, "Spades")
-        dealer.value += 21
-
+		dealer.value += 21
+		
 		player.hands << Card.new(10, "Kings")
 		player.hands << Card.new(10, "Hearts")
-	    player.value += 10 + 10
+		player.value += 10 + 10
+		
+		# Player: 20 / Dealer: 21
+		assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Dealer")
+	end
 
-	    # Player: 20 / Dealer: 21
-       	assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Dealer")
-    end
-
-    # Player has Blackjack
-    def test_compare_the_two_part_two5
-    	player = Player.new
+	# Player has Blackjack
+	def test_compare_the_two_part_two5
+		player = Player.new
 		dealer = Dealer.new(player)
 
 		dealer.hands << Card.new(10, "Kings")
 		dealer.hands << Card.new(10, "Hearts")
-	    dealer.value += 10 + 10
+		dealer.value += 10 + 10
 
 		player.hands << Card.new(9, "Diamonds")
 		player.hands << Card.new(10, "Kings")
 		player.hands << Card.new(2, "Spades")
-        player.value += 21
+		player.value += 21
 
-	    # Player: 21 / Dealer: 20
-       	assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Player")
-    end
+		# Player: 21 / Dealer: 20
+		assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Player")
+	end
 
-    # Both have Blackjack
-    def test_compare_the_two_part_two6
-    	player = Player.new
+	# Both have Blackjack
+	def test_compare_the_two_part_two6
+		player = Player.new
 		dealer = Dealer.new(player)
 
 		dealer.hands << Card.new(9, "Diamonds")
 		dealer.hands << Card.new(10, "Kings")
 		dealer.hands << Card.new(2, "Spades")
-	    dealer.value += 21
+		dealer.value += 21
 
 		player.hands << Card.new(9, "Diamonds")
 		player.hands << Card.new(10, "Kings")
 		player.hands << Card.new(2, "Spades")
-        player.value += 21
+		player.value += 21
+		
+		# Player: 21 / Dealer: 21
+		assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Tie")
+	end
 
-	    # Player: 21 / Dealer: 21
-       	assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Tie")
-    end
-
-    # START TESTING WITH ACE'S
-    def test_compare_the_two_part_two7
-    	player = Player.new
+	# START TESTING WITH ACE'S
+	def test_compare_the_two_part_two7
+		player = Player.new
 		dealer = Dealer.new(player)
 
 		dealer.hands << Card.new("A", "Diamonds")
 		dealer.hands << Card.new(2, "Kings")
 		dealer.hands << Card.new(2, "Spades")
-	    dealer.value += 1 + 2 + 2
+		dealer.value += 1 + 2 + 2
 
 		player.hands << Card.new(9, "Diamonds")
 		player.hands << Card.new(2, "Kings")
 		player.hands << Card.new(2, "Spades")
-        player.value += 13
+		player.value += 13
 
 	    # Player: 13 / Dealer: 5 or 15
        	assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Dealer")
@@ -376,55 +376,53 @@ class Test_Dealer < Test::Unit::TestCase
 		# Player: 5 or 15 / Dealer: 11 or 21
 		assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Dealer")
 
-       	player.hands << Card.new(4, "Kings")
-       	player.value += 4
+		player.hands << Card.new(4, "Kings")
+		player.value += 4
 
 		# Player: 9 or 19 / Dealer: 11 or 21
-       	assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Dealer")
-
-
-       	dealer.hands << Card.new(8, "Spades")
+		assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Dealer")
+		
+		dealer.hands << Card.new(8, "Spades")
 		dealer.value += 8
 
 		# Player: 9 or 19 / Dealer: 19 or 29
-       	assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Tie")
+		assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Tie")
+	end
 
-    end
-
-    # Test if just hit and busted. Tested during game as well
-    def test_compare_the_two_part_two10
-    	player = Player.new
+	# Test if just hit and busted. Tested during game as well
+	def test_compare_the_two_part_two10
+		player = Player.new
 		dealer = Dealer.new(dealer)
 
 		player.hands << Card.new(10, "Diamonds")
 		player.hands << Card.new(2, "Kings")
 		player.hands << Card.new(2, "Spades")
-	    player.value += 10 + 2 + 2
+		player.value += 10 + 2 + 2
 
 		dealer.hands << Card.new(10, "Diamonds")
 		dealer.hands << Card.new(2, "Kings")
 		dealer.hands << Card.new(10, "Spades")
-	    dealer.value += 10 + 2 + 10
+		dealer.value += 10 + 2 + 10
 
-	    # Player: 14 / Dealer: 12 + (10 on hit)
-       	assert_match(dealer.test_compare_the_two(player, "stand", dealer, "hit"), "Player")
-    end
+		# Player: 14 / Dealer: 12 + (10 on hit)
+		assert_match(dealer.test_compare_the_two(player, "stand", dealer, "hit"), "Player")
+	end
 
-    def test_compare_the_two_part_two11
-    	player = Player.new
+	def test_compare_the_two_part_two11
+		player = Player.new
 		dealer = Dealer.new(dealer)
 
 		dealer.hands << Card.new(10, "Diamonds")
 		dealer.hands << Card.new(2, "Kings")
 		dealer.hands << Card.new(2, "Spades")
-	    dealer.value += 10 + 2 + 2
+		dealer.value += 10 + 2 + 2
 
 		player.hands << Card.new(10, "Diamonds")
 		player.hands << Card.new(2, "Kings")
 		player.hands << Card.new(10, "Spades")
-	    player.value += 10 + 2 + 10
-
-	    # Player: 12 + (10 on hit) / Dealer: 14
-       	assert_match(dealer.test_compare_the_two(player, "hit", dealer, "hit"), "Dealer")
-    end
+		player.value += 10 + 2 + 10
+		
+		# Player: 12 + (10 on hit) / Dealer: 14
+		assert_match(dealer.test_compare_the_two(player, "hit", dealer, "hit"), "Dealer")
+	end
 end
