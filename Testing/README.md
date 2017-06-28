@@ -8,4 +8,4 @@ test_deck.rb - Tests the class variables as well as its methods
 
 test_player.rb - Mainly tests the class members when they hold a hand of cards
 
-![alt text](../Screenshots/tests.png)
+![alt text](Tests.png)

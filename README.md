@@ -29,4 +29,4 @@ There will be 2 players: a human player (user) and a dealer (script)
 * No advanced blackjack rules (split, double)
 
 ## Gameplay
-![er](Screenshots/gameplay.png)
+![er](SampleGame.png)
