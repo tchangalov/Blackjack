@@ -319,10 +319,10 @@ class Test_Dealer < Test::Unit::TestCase
 
 		# Player: 19 / Dealer: 11 or 21
 		assert_match(dealer.test_compare_the_two(player, "stand", dealer, "stand"), "Dealer")
-    end
+	end
 
     # Same as test above, but this time, it's the player that has the Ace
-    def test_compare_the_two_part_two8
+	def test_compare_the_two_part_two8
 		player = Player.new
 		dealer = Dealer.new(dealer)
 
